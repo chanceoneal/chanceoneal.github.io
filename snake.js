@@ -4,6 +4,7 @@
 	// Constants
 	var COLS = 20;
 	var ROWS = 20;
+	var SCORES = [0, 0, 0, 0, 0];
 
 	// IDs
 	var EMPTY = 0;
@@ -95,6 +96,7 @@
 
 	function main() {
 		document.getElementById("startButton").style.display = "none";
+		document.getElementById("scoreTable").style.display = "initial";
 		canvas = document.createElement("canvas");
 		canvas.width = COLS * 20;
 		canvas.height = ROWS * 20;
@@ -140,7 +142,6 @@
 	}
 
 	function update() {
-		console.log("update")
 
 		frames++;
 
@@ -176,8 +177,25 @@
 					break;
 			}
 
+			// Restarts the game if snake touches sides or itself...
+			// Change later to move snake from one end to the other
 			if (newX < 0 || newX > grid.width - 1 || newY < 0 || newY > grid.height - 1 || grid.get(newX, newY) === SNAKE) {
-				// Restarts the game... change later to move snake from one end to the other
+				for (var i = 0; i < SCORES.length; i++) {
+					if (score > SCORES[i] && i === SCORES.length - 1) {
+						SCORES[i] = score;
+						break;
+					} else if (score > SCORES[i]) {
+						var temp = SCORES[i];
+						SCORES[i] = score;
+						for (var j = i + 1; j < SCORES.length; j++) {
+							var temp2 = SCORES[j];
+							SCORES[j] = temp;
+							temp = temp2;
+						}
+						break;
+					}
+				}
+				setScoreBoard();
 				return init();
 			}
 
@@ -230,6 +248,22 @@
 		context.fillText("SCORE: " + score, 10, canvas.height - 10);
 	}
 
+	function initializeScoreBoard() {
+		var tableData = document.getElementById("tableId").getElementsByTagName("td");
+		for (var j = 1; j < tableData.length; j += 2) {
+			tableData[j].innerHTML = 0;
+		}
+	}
+
+	function setScoreBoard() {
+		var tableData = document.getElementById("tableId").getElementsByTagName("td");
+		var i = 0;
+		for (var j = 1; j < tableData.length; j += 2) {
+			tableData[j].innerHTML = SCORES[i];
+			i++;
+		}
+	}
+
 	function pauseGame() {
 		canvas.parentNode.removeChild(canvas);
 		document.getElementById("startButton").style.display = "initial";
@@ -237,7 +271,9 @@
 	}
 
 	window.onload = function () {
+		initializeScoreBoard();
 		document.getElementById("startButton").onclick = main;
+
 		// document.getElementById("stopButton").onclick = stopGame;
 		// document.getElementById("pauseButton").onclick = pauseGame;
 	}

@@ -14,10 +14,35 @@
 	<div class="container">
 		<h1 class="text-center">Snake</h1>
 		<div class="text-center">
-			<p>Press "Play" to play the classic game of Snake! Collect as many of the red squares as you can, and make sure not to touch the edges or yourself!</p>
-			<button id="startButton" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
+			<p>Press "Play" to play the classic game of Snake! Collect as many of the red squares as you can, and make sure not to touch
+				the edges or yourself!</p>
+			<p>Pick a speed! Test your snake skills!</p>
+			<div id="settings" class="row">
+				<div class="text-left col-xs-6">
+					<div class="text-right">
+						<button id="startButton" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
+					</div>
+				</div>
+				<div class="text-right col-xs-6">
+					<div class="text-left">
+						<fieldset>
+							<legend>Speed: </legend>
+							<select id="speed" class="form-control">
+							<option value="11">Super Slow</option>
+							<option value="9">Slow</option>
+							<option value="7" selected="selected">Normal</option>
+							<option value="5">Fast</option>
+							<option value="3">Super Fast</option>
+						</select>
+						</fieldset>
+					</div>
+				</div>
+			</div>
+
 			<!-- <button id="pauseButton" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span></button> -->
 			<!-- <button id="stopButton" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button> -->
+			<br/>
+			<img id="snakeImage" src="./snake.png" alt="Dope Snake">
 		</div>
 	</div>
 	<div id="scoreTable" class="container" style="display:none">

@@ -10,6 +10,7 @@
 	var EMPTY = 0;
 	var SNAKE = 1;
 	var FRUIT = 2;
+	var FRAME_MOD = 7;
 
 	// Directions
 	var LEFT = 0;
@@ -60,6 +61,7 @@
 			this._queue = [];
 			this.insert(x, y);
 		},
+
 		insert: function (x, y) {
 			this._queue.unshift({
 				x: x,
@@ -95,8 +97,11 @@
 	var canvas, context, keyState, frames, score;
 
 	function main() {
-		document.getElementById("startButton").style.display = "none";
+		// document.getElementById("startButton").style.display = "none";
+		// document.getElementById("fieldset").style.display = "none";
+		document.getElementById("settings").style.display = "none";
 		document.getElementById("scoreTable").style.display = "initial";
+		document.getElementById("snakeImage").style.display = "none";
 		canvas = document.createElement("canvas");
 		canvas.width = COLS * 20;
 		canvas.height = ROWS * 20;
@@ -147,18 +152,15 @@
 
 		if (keyState[KEY_LEFT] && snake.direction !== RIGHT) {
 			snake.direction = LEFT;
-		}
-		if (keyState[KEY_UP] && snake.direction !== DOWN) {
+		} else if (keyState[KEY_UP] && snake.direction !== DOWN) {
 			snake.direction = UP;
-		}
-		if (keyState[KEY_RIGHT] && snake.direction !== LEFT) {
+		} else if (keyState[KEY_RIGHT] && snake.direction !== LEFT) {
 			snake.direction = RIGHT;
-		}
-		if (keyState[KEY_DOWN] && snake.direction !== UP) {
+		} else if (keyState[KEY_DOWN] && snake.direction !== UP) {
 			snake.direction = DOWN;
 		}
 
-		if (frames % 7 === 0) {
+		if (frames % FRAME_MOD === 0) {
 			var newX = snake.last.x;
 			var newY = snake.last.y;
 
@@ -270,9 +272,14 @@
 
 	}
 
+	function changeSpeed() {
+		FRAME_MOD = parseInt(document.getElementById("speed").value);
+	}
+
 	window.onload = function () {
 		initializeScoreBoard();
 		document.getElementById("startButton").onclick = main;
+		document.getElementById("speed").onchange = changeSpeed;
 
 		// document.getElementById("stopButton").onclick = stopGame;
 		// document.getElementById("pauseButton").onclick = pauseGame;
